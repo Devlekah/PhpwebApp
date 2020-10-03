@@ -34,3 +34,39 @@
     
   </body>
 </html>
+
+<?php 
+session_start();
+
+//
+if($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+  // Adding 
+  $username = $_POST['username'];
+  $password = $_POST['password'];
+
+  // Database Connection
+  include 'connection';
+  $result = mysqli_query($conn, "SELECT * FROM login WHERE username = '$username'");
+  if(mysqli_num_rows($result) > 0)
+  {
+    echo "Success"; 
+    header('location: index.php');
+    $row = mysqli_fetch_object($result);
+    if (password_verify($password, $row->password))
+    {
+
+    }
+    else
+    {
+      echo "Password Does not match";
+    }
+  }
+  else
+  {
+    echo "$username Does not found";
+  }
+}
+
+
+?>
